@@ -118,6 +118,8 @@ public abstract class ArithmeticBinaryTransformer extends Transformer {
         return layerPointReader.currentFloat();
       case DOUBLE:
         return layerPointReader.currentDouble();
+      case BOOLEAN:
+        return layerPointReader.currentBoolean() ? 1.0 : 0.0;
       default:
         throw new QueryProcessException(
             "Unsupported data type: " + layerPointReader.getDataType().toString());

@@ -131,6 +131,30 @@ public abstract class BinaryExpression extends Expression {
           case "%":
             resultExpressions.add(new ModuloExpression(le, re));
             break;
+          case "<":
+            resultExpressions.add(new LessThanExpression(le, re));
+            break;
+          case "<=":
+            resultExpressions.add(new LessEqualExpression(le, re));
+            break;
+          case ">":
+            resultExpressions.add(new GreaterThanExpression(le, re));
+            break;
+          case ">=":
+            resultExpressions.add(new GreaterEqualExpression(le, re));
+            break;
+          case "=":
+            resultExpressions.add(new EqualToExpression(le, re));
+            break;
+          case "!=":
+            resultExpressions.add(new NonEqualExpression(le, re));
+            break;
+          case "&":
+            resultExpressions.add(new LogicAndExpression(le, re));
+            break;
+          case "|":
+            resultExpressions.add(new LogicOrExpression(le, re));
+            break;
           default:
             throw new UnsupportedOperationException();
         }

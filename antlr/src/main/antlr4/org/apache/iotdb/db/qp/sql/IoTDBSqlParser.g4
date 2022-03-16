@@ -782,8 +782,11 @@ dateExpression
 expression
     : LR_BRACKET unaryInBracket=expression RR_BRACKET
     | (PLUS | MINUS) unaryAfterSign=expression
+    | OPERATOR_NOT unaryAfterNot=expression
     | leftExpression=expression (STAR | DIV | MOD) rightExpression=expression
     | leftExpression=expression (PLUS | MINUS) rightExpression=expression
+    | leftExpression=expression (OPERATOR_GT | OPERATOR_GTE | OPERATOR_LT | OPERATOR_LTE | OPERATOR_EQ | OPERATOR_NEQ) rightExpression=expression
+    | leftExpression=expression (OPERATOR_AND | OPERATOR_OR) rightExpression=expression
     | functionName LR_BRACKET expression (COMMA expression)* functionAttribute* RR_BRACKET
     | suffixPathCanInExpr
     | constant
