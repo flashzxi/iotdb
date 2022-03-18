@@ -818,7 +818,8 @@ MOD : '%';
 
 // Operators. Comparation
 
-OPERATOR_EQ : '=' | '==';
+OPERATOR_DEQ : '==';
+OPERATOR_SEQ : '=';
 OPERATOR_GT : '>';
 OPERATOR_GTE : '>=';
 OPERATOR_LT : '<';

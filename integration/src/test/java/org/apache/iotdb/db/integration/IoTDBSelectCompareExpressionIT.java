@@ -433,7 +433,7 @@ public class IoTDBSelectCompareExpressionIT {
       ResultSet resultSet =
           statement.executeQuery("select s1>=1 && s1<3, !(s1 < 2 || s1> 8), !s2>3 from root.sg.d1");
       int columnCount = resultSet.getMetaData().getColumnCount();
-      assertEquals(1 + 2, columnCount);
+      assertEquals(1 + 3, columnCount);
 
       boolean bool;
       for (int i = 0; i < time.size(); ++i) {

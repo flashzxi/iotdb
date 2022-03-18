@@ -123,7 +123,7 @@ triggerAttributeClause
     ;
 
 triggerAttribute
-    : key=STRING_LITERAL OPERATOR_EQ value=STRING_LITERAL
+    : key=STRING_LITERAL (OPERATOR_SEQ | OPERATOR_DEQ) value=STRING_LITERAL
     ;
 
 // Create Continuous Query
@@ -137,7 +137,7 @@ cqSelectIntoClause
 
 cqGroupByTimeClause
     : GROUP BY TIME LR_BRACKET DURATION_LITERAL RR_BRACKET
-      (COMMA LEVEL OPERATOR_EQ INTEGER_LITERAL (COMMA INTEGER_LITERAL)*)?
+      (COMMA LEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL (COMMA INTEGER_LITERAL)*)?
     ;
 
 resampleClause
@@ -163,7 +163,7 @@ alterClause
     ;
 
 aliasClause
-    : ALIAS OPERATOR_EQ identifier
+    : ALIAS (OPERATOR_SEQ | OPERATOR_DEQ) identifier
     ;
 
 // Delete Storage Group
@@ -317,12 +317,12 @@ countDevices
 
 // Count Timeseries
 countTimeseries
-    : COUNT TIMESERIES prefixPath? (GROUP BY LEVEL OPERATOR_EQ INTEGER_LITERAL)?
+    : COUNT TIMESERIES prefixPath? (GROUP BY LEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL)?
     ;
 
 // Count Nodes
 countNodes
-    : COUNT NODES prefixPath LEVEL OPERATOR_EQ INTEGER_LITERAL
+    : COUNT NODES prefixPath LEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL
     ;
 
 
@@ -381,7 +381,7 @@ orderByTimeClause
 groupByTimeClause
     : GROUP BY LR_BRACKET timeInterval COMMA DURATION_LITERAL (COMMA DURATION_LITERAL)? RR_BRACKET
     | GROUP BY LR_BRACKET timeInterval COMMA DURATION_LITERAL (COMMA DURATION_LITERAL)? RR_BRACKET
-    COMMA LEVEL OPERATOR_EQ INTEGER_LITERAL (COMMA INTEGER_LITERAL)*
+    COMMA LEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL (COMMA INTEGER_LITERAL)*
     ;
 
 groupByFillClause
@@ -390,7 +390,7 @@ groupByFillClause
     ;
 
 groupByLevelClause
-    : GROUP BY LEVEL OPERATOR_EQ INTEGER_LITERAL (COMMA INTEGER_LITERAL)*
+    : GROUP BY LEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL (COMMA INTEGER_LITERAL)*
     ;
 
 fillClause
@@ -666,9 +666,9 @@ loadFile
     ;
 
 loadFilesClause
-    : AUTOREGISTER OPERATOR_EQ BOOLEAN_LITERAL (COMMA loadFilesClause)?
-    | SGLEVEL OPERATOR_EQ INTEGER_LITERAL (COMMA loadFilesClause)?
-    | VERIFY OPERATOR_EQ BOOLEAN_LITERAL (COMMA loadFilesClause)?
+    : AUTOREGISTER (OPERATOR_SEQ | OPERATOR_DEQ) BOOLEAN_LITERAL (COMMA loadFilesClause)?
+    | SGLEVEL (OPERATOR_SEQ | OPERATOR_DEQ) INTEGER_LITERAL (COMMA loadFilesClause)?
+    | VERIFY (OPERATOR_SEQ | OPERATOR_DEQ) BOOLEAN_LITERAL (COMMA loadFilesClause)?
     ;
 
 // Remove TsFile
@@ -785,7 +785,7 @@ expression
     | OPERATOR_NOT unaryAfterNot=expression
     | leftExpression=expression (STAR | DIV | MOD) rightExpression=expression
     | leftExpression=expression (PLUS | MINUS) rightExpression=expression
-    | leftExpression=expression (OPERATOR_GT | OPERATOR_GTE | OPERATOR_LT | OPERATOR_LTE | OPERATOR_EQ | OPERATOR_NEQ) rightExpression=expression
+    | leftExpression=expression (OPERATOR_GT | OPERATOR_GTE | OPERATOR_LT | OPERATOR_LTE | OPERATOR_DEQ | OPERATOR_NEQ) rightExpression=expression
     | leftExpression=expression (OPERATOR_AND | OPERATOR_OR) rightExpression=expression
     | functionName LR_BRACKET expression (COMMA expression)* functionAttribute* RR_BRACKET
     | suffixPathCanInExpr
@@ -798,7 +798,7 @@ functionName
     ;
 
 functionAttribute
-    : COMMA functionAttributeKey=STRING_LITERAL OPERATOR_EQ functionAttributeValue=STRING_LITERAL
+    : COMMA functionAttributeKey=STRING_LITERAL OPERATOR_SEQ functionAttributeValue=STRING_LITERAL
     ;
 
 containsExpression
@@ -825,7 +825,8 @@ comparisonOperator
     | type = OPERATOR_GTE
     | type = OPERATOR_LT
     | type = OPERATOR_LTE
-    | type = OPERATOR_EQ
+    | type = OPERATOR_DEQ
+    | type = OPERATOR_SEQ
     | type = OPERATOR_NEQ
     ;
 
@@ -869,16 +870,16 @@ fromClause
 // Attribute Clause
 
 attributeClauses
-    : alias? WITH DATATYPE OPERATOR_EQ dataType=DATATYPE_VALUE
-    (COMMA ENCODING OPERATOR_EQ encoding=ENCODING_VALUE)?
-    (COMMA (COMPRESSOR | COMPRESSION) OPERATOR_EQ compressor=COMPRESSOR_VALUE)?
+    : alias? WITH DATATYPE (OPERATOR_SEQ | OPERATOR_DEQ) dataType=DATATYPE_VALUE
+    (COMMA ENCODING (OPERATOR_SEQ | OPERATOR_DEQ) encoding=ENCODING_VALUE)?
+    (COMMA (COMPRESSOR | COMPRESSION) (OPERATOR_SEQ | OPERATOR_DEQ) compressor=COMPRESSOR_VALUE)?
     (COMMA propertyClause)*
     tagClause?
     attributeClause?
     // Simplified version (supported since v0.13)
-    | alias? WITH? (DATATYPE OPERATOR_EQ)? dataType=DATATYPE_VALUE
-    (ENCODING OPERATOR_EQ encoding=ENCODING_VALUE)?
-    ((COMPRESSOR | COMPRESSION) OPERATOR_EQ compressor=COMPRESSOR_VALUE)?
+    | alias? WITH? (DATATYPE (OPERATOR_SEQ | OPERATOR_DEQ))? dataType=DATATYPE_VALUE
+    (ENCODING (OPERATOR_SEQ | OPERATOR_DEQ) encoding=ENCODING_VALUE)?
+    ((COMPRESSOR | COMPRESSION) (OPERATOR_SEQ | OPERATOR_DEQ) compressor=COMPRESSOR_VALUE)?
     propertyClause*
     tagClause?
     attributeClause?
@@ -893,7 +894,7 @@ tagClause
     ;
 
 propertyClause
-    : name=identifier OPERATOR_EQ value=propertyValue
+    : name=identifier (OPERATOR_SEQ | OPERATOR_DEQ) value=propertyValue
     ;
 
 propertyValue
