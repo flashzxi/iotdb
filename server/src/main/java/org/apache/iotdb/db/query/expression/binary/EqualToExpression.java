@@ -21,7 +21,7 @@ package org.apache.iotdb.db.query.expression.binary;
 
 import org.apache.iotdb.db.query.expression.Expression;
 import org.apache.iotdb.db.query.udf.core.reader.LayerPointReader;
-import org.apache.iotdb.db.query.udf.core.transformer.ArithmeticBinaryTransformer;
+import org.apache.iotdb.db.query.udf.core.transformer.CompareBinaryTransformer;
 import org.apache.iotdb.db.query.udf.core.transformer.CompareEqualToTransformer;
 
 public class EqualToExpression extends BinaryExpression {
@@ -30,7 +30,7 @@ public class EqualToExpression extends BinaryExpression {
   }
 
   @Override
-  protected ArithmeticBinaryTransformer constructTransformer(
+  protected CompareBinaryTransformer constructTransformer(
       LayerPointReader leftParentLayerPointReader, LayerPointReader rightParentLayerPointReader) {
     return new CompareEqualToTransformer(leftParentLayerPointReader, rightParentLayerPointReader);
   }

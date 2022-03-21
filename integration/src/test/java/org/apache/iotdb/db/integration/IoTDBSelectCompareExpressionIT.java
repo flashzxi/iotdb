@@ -36,51 +36,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @Category({LocalStandaloneTest.class, ClusterTest.class})
 public class IoTDBSelectCompareExpressionIT {
 
   private static String[] INSERTION_SQLS;
   private static List<Long> time = new ArrayList<>(0);
-  private static List<Integer> _int = new ArrayList<>(0);
-  private static List<Long> _long = new ArrayList<>(0);
-  private static List<Float> _float = new ArrayList<>(0);
-  private static List<Double> _double = new ArrayList<>(0);
-  private static List<Boolean> _bool = new ArrayList<>(0);
+  private static List<Integer> intValue = new ArrayList<>(0);
+  private static List<Long> longValue = new ArrayList<>(0);
+  private static List<Float> floatValue = new ArrayList<>(0);
+  private static List<Double> doubleValue = new ArrayList<>(0);
+  private static List<Boolean> boolValue = new ArrayList<>(0);
 
   private static void generateInsertionSQLS() {
     INSERTION_SQLS = new String[50];
     Random random = new Random();
     for (int j = 0; j < 50; ++j) {
-      _int.add(random.nextInt(10));
-      _long.add((long) random.nextInt(10));
-      _float.add((float) (random.nextInt(100) / 10.0));
-      _double.add(random.nextInt(100) / 10.0);
-      _bool.add(random.nextBoolean());
+      intValue.add(random.nextInt(10));
+      longValue.add((long) random.nextInt(10));
+      floatValue.add((float) (random.nextInt(100) / 10.0));
+      doubleValue.add(random.nextInt(100) / 10.0);
+      boolValue.add(random.nextBoolean());
       INSERTION_SQLS[j] =
           generateInsertionSQL(
               (long) j,
-              _int.get(_int.size() - 1),
-              _long.get(_long.size() - 1),
-              _float.get(_float.size() - 1),
-              _double.get(_double.size() - 1),
-              _bool.get(_bool.size() - 1),
+              intValue.get(intValue.size() - 1),
+              longValue.get(longValue.size() - 1),
+              floatValue.get(floatValue.size() - 1),
+              doubleValue.get(doubleValue.size() - 1),
+              boolValue.get(boolValue.size() - 1),
               "\"magic_words\"");
     }
   }
 
   private static String generateInsertionSQL(
       long time,
-      int _int32,
-      long _int64,
-      float _float,
-      double _double,
-      boolean _bool,
+      int intValue32,
+      long intValue64,
+      float floatValue,
+      double doubleValue,
+      boolean boolValue,
       String _text) {
     return String.format(
         "insert into root.sg.d1(time, s1, s2, s3, s4, s5, s6) values (%d, %d, %d, %f, %f, %s, %s);",
-        time, _int32, _int64, _float, _double, _bool ? "true" : "false", _text);
+        time, intValue32, intValue64, floatValue, doubleValue, boolValue ? "true" : "false", _text);
   }
 
   @BeforeClass
@@ -139,22 +140,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_int.get(i) >= 5, bool);
+        assertEquals(intValue.get(i) >= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_int.get(i) <= 5, bool);
+        assertEquals(intValue.get(i) <= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_int.get(i) > 5, bool);
+        assertEquals(intValue.get(i) > 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_int.get(i) < 5, bool);
+        assertEquals(intValue.get(i) < 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_int.get(i) == 5, bool);
+        assertEquals(intValue.get(i) == 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_int.get(i) != 5, bool);
+        assertEquals(intValue.get(i) != 5, bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -172,22 +173,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_long.get(i) >= 5, bool);
+        assertEquals(longValue.get(i) >= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_long.get(i) <= 5, bool);
+        assertEquals(longValue.get(i) <= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_long.get(i) > 5, bool);
+        assertEquals(longValue.get(i) > 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_long.get(i) < 5, bool);
+        assertEquals(longValue.get(i) < 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_long.get(i) == 5, bool);
+        assertEquals(longValue.get(i) == 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_long.get(i) != 5, bool);
+        assertEquals(longValue.get(i) != 5, bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -205,22 +206,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_float.get(i) >= 5, bool);
+        assertEquals(floatValue.get(i) >= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_float.get(i) <= 5, bool);
+        assertEquals(floatValue.get(i) <= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_float.get(i) > 5, bool);
+        assertEquals(floatValue.get(i) > 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_float.get(i) < 5, bool);
+        assertEquals(floatValue.get(i) < 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_float.get(i) == 5, bool);
+        assertEquals(floatValue.get(i) == 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_float.get(i) != 5, bool);
+        assertEquals(floatValue.get(i) != 5, bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -238,22 +239,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_double.get(i) >= 5, bool);
+        assertEquals(doubleValue.get(i) >= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_double.get(i) <= 5, bool);
+        assertEquals(doubleValue.get(i) <= 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_double.get(i) > 5, bool);
+        assertEquals(doubleValue.get(i) > 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_double.get(i) < 5, bool);
+        assertEquals(doubleValue.get(i) < 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_double.get(i) == 5, bool);
+        assertEquals(doubleValue.get(i) == 5, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_double.get(i) != 5, bool);
+        assertEquals(doubleValue.get(i) != 5, bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -271,16 +272,16 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_bool.get(i) == true, bool);
+        assertEquals(boolValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_bool.get(i) != true, bool);
+        assertEquals(!boolValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_bool.get(i) == false, bool);
+        assertEquals(!boolValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_bool.get(i) != false, bool);
+        assertEquals(boolValue.get(i), bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -302,22 +303,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_int.get(i) >= _long.get(i), bool);
+        assertEquals(intValue.get(i) >= longValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_int.get(i) <= _long.get(i), bool);
+        assertEquals(intValue.get(i) <= longValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_int.get(i) > _float.get(i), bool);
+        assertEquals(intValue.get(i) > floatValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_int.get(i) < _float.get(i), bool);
+        assertEquals(intValue.get(i) < floatValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals((double) _int.get(i) == _double.get(i), bool);
+        assertEquals((double) intValue.get(i) == doubleValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals((double) _int.get(i) != _double.get(i), bool);
+        assertEquals((double) intValue.get(i) != doubleValue.get(i), bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -336,22 +337,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_long.get(i) >= _float.get(i), bool);
+        assertEquals(longValue.get(i) >= floatValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_long.get(i) <= _float.get(i), bool);
+        assertEquals(longValue.get(i) <= floatValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_long.get(i) > _double.get(i), bool);
+        assertEquals(longValue.get(i) > doubleValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_long.get(i) < _double.get(i), bool);
+        assertEquals(longValue.get(i) < doubleValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_long.get(i) == (long) _int.get(i), bool);
+        assertEquals(longValue.get(i) == (long) intValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_long.get(i) != (long) _int.get(i), bool);
+        assertEquals(longValue.get(i) != (long) intValue.get(i), bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -370,22 +371,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_float.get(i) >= _double.get(i), bool);
+        assertEquals(floatValue.get(i) >= doubleValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_float.get(i) <= _double.get(i), bool);
+        assertEquals(floatValue.get(i) <= doubleValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_float.get(i) > _int.get(i), bool);
+        assertEquals(floatValue.get(i) > intValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_float.get(i) < _int.get(i), bool);
+        assertEquals(floatValue.get(i) < intValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_float.get(i) == (float) _long.get(i), bool);
+        assertEquals(floatValue.get(i) == (float) longValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_float.get(i) != (float) _long.get(i), bool);
+        assertEquals(floatValue.get(i) != (float) longValue.get(i), bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -404,22 +405,22 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_double.get(i) >= _int.get(i), bool);
+        assertEquals(doubleValue.get(i) >= intValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(_double.get(i) <= _int.get(i), bool);
+        assertEquals(doubleValue.get(i) <= intValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(4));
-        assertEquals(_double.get(i) > _long.get(i), bool);
+        assertEquals(doubleValue.get(i) > longValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(5));
-        assertEquals(_double.get(i) < _long.get(i), bool);
+        assertEquals(doubleValue.get(i) < longValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(6));
-        assertEquals(_double.get(i) == (double) _float.get(i), bool);
+        assertEquals(doubleValue.get(i) == (double) floatValue.get(i), bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(7));
-        assertEquals(_double.get(i) != (double) _float.get(i), bool);
+        assertEquals(doubleValue.get(i) != (double) floatValue.get(i), bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());
@@ -440,10 +441,35 @@ public class IoTDBSelectCompareExpressionIT {
         resultSet.next();
 
         bool = Boolean.parseBoolean(resultSet.getString(2));
-        assertEquals(_int.get(i) >= 1 && _int.get(i) < 3, bool);
+        assertEquals(intValue.get(i) >= 1 && intValue.get(i) < 3, bool);
 
         bool = Boolean.parseBoolean(resultSet.getString(3));
-        assertEquals(!(_int.get(i) < 2 || _int.get(i) > 8), bool);
+        assertEquals(!(intValue.get(i) < 2 || intValue.get(i) > 8), bool);
+      }
+    } catch (SQLException throwable) {
+      fail(throwable.getMessage());
+    }
+  }
+
+  @Test
+  public void testComplexExpression() {
+    try (Connection connection = EnvFactory.getEnv().getConnection();
+        Statement statement = connection.createStatement()) {
+      ResultSet resultSet =
+          statement.executeQuery(
+              "select ( s1 + 1 ) * 2 - 4 < ( s3 * 3 - 6) / 2 && ( s1 + 5 ) * 2 > s2 * 3 + 4 from root.sg.d1");
+      int columnCount = resultSet.getMetaData().getColumnCount();
+      assertEquals(1 + 1, columnCount);
+
+      boolean bool;
+      for (int i = 0; i < time.size(); ++i) {
+        resultSet.next();
+
+        bool = Boolean.parseBoolean(resultSet.getString(2));
+        assertEquals(
+            (intValue.get(i) + 1) * 2 - 4 < (floatValue.get(i) * 3 - 6) / 2
+                && (intValue.get(i) + 5) * 2 > longValue.get(i) * 3 + 4,
+            bool);
       }
     } catch (SQLException throwable) {
       fail(throwable.getMessage());

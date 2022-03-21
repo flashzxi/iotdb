@@ -21,7 +21,7 @@ package org.apache.iotdb.db.query.udf.core.transformer;
 
 import org.apache.iotdb.db.query.udf.core.reader.LayerPointReader;
 
-public class CompareLessEqualTransformer extends CompareOperatorTransformer {
+public class CompareLessEqualTransformer extends CompareBinaryTransformer {
 
   public CompareLessEqualTransformer(
       LayerPointReader leftPointReader, LayerPointReader rightPointReader) {
@@ -29,7 +29,7 @@ public class CompareLessEqualTransformer extends CompareOperatorTransformer {
   }
 
   @Override
-  protected double evaluate(double leftOperand, double rightOperand) {
-    return leftOperand <= rightOperand ? 1.0 : 0.0;
+  protected boolean evaluateBoolean(double leftOperand, double rightOperand) {
+    return Double.compare(leftOperand, rightOperand) <= 0;
   }
 }

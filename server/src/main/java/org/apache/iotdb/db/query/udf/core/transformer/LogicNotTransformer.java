@@ -54,10 +54,10 @@ public class LogicNotTransformer extends Transformer {
           cachedBoolean = layerPointReader.currentLong() == 0L;
           break;
         case FLOAT:
-          cachedBoolean = layerPointReader.currentFloat() == 0.0f;
+          cachedBoolean = Float.compare(layerPointReader.currentFloat(), 0.0f) == 0;
           break;
         case DOUBLE:
-          cachedBoolean = layerPointReader.currentDouble() == 0.0;
+          cachedBoolean = Double.compare(layerPointReader.currentDouble(), 0.0) == 0;
           break;
         case BOOLEAN:
           cachedBoolean = !layerPointReader.currentBoolean();

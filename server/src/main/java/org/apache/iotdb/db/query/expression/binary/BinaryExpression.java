@@ -32,7 +32,7 @@ import org.apache.iotdb.db.query.udf.core.layer.RawQueryInputLayer;
 import org.apache.iotdb.db.query.udf.core.layer.SingleInputColumnMultiReferenceIntermediateLayer;
 import org.apache.iotdb.db.query.udf.core.layer.SingleInputColumnSingleReferenceIntermediateLayer;
 import org.apache.iotdb.db.query.udf.core.reader.LayerPointReader;
-import org.apache.iotdb.db.query.udf.core.transformer.ArithmeticBinaryTransformer;
+import org.apache.iotdb.db.query.udf.core.transformer.BinaryTransformer;
 import org.apache.iotdb.db.query.udf.core.transformer.Transformer;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 
@@ -231,7 +231,7 @@ public abstract class BinaryExpression extends Expression {
     return expressionIntermediateLayerMap.get(this);
   }
 
-  protected abstract ArithmeticBinaryTransformer constructTransformer(
+  protected abstract BinaryTransformer constructTransformer(
       LayerPointReader leftParentLayerPointReader, LayerPointReader rightParentLayerPointReader);
 
   @Override
