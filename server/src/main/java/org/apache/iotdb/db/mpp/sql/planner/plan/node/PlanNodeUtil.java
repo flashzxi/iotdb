@@ -16,18 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.iotdb.confignode.exception.startup;
+package org.apache.iotdb.db.mpp.sql.planner.plan.node;
 
-import org.apache.iotdb.confignode.exception.ConfigNodeException;
-
-/** Throws when there exists errors when startup checks */
-public class StartupException extends ConfigNodeException {
-
-  public StartupException(String name, String message) {
-    super(String.format("Failed to start [%s], because [%s]", name, message));
+public class PlanNodeUtil {
+  public static void printPlanNode(PlanNode root) {
+    printPlanNodeWithLevel(root, 0);
   }
 
-  public StartupException(String message) {
-    super(message);
+  private static void printPlanNodeWithLevel(PlanNode root, int level) {
+    printTab(level);
+    System.out.println(root.toString());
+    for (PlanNode child : root.getChildren()) {
+      printPlanNodeWithLevel(child, level + 1);
+    }
+  }
+
+  private static void printTab(int count) {
+    for (int i = 0; i < count; i++) {
+      System.out.print("\t");
+    }
   }
 }

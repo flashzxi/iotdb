@@ -16,30 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.iotdb.db.mpp.common;
 
-package org.apache.iotdb.db.exception;
-
-import org.apache.iotdb.commons.exception.IoTDBException;
-import org.apache.iotdb.rpc.TSStatusCode;
-
-public class ConfigurationException extends IoTDBException {
-  final String parameter;
-  final String correctValue;
-
-  public ConfigurationException(String parameter, String badValue, String correctValue) {
-    super(
-        String.format(
-            "Parameter %s can not be %s, please set to: %s", parameter, badValue, correctValue),
-        TSStatusCode.CONFIG_ERROR.getStatusCode());
-    this.parameter = parameter;
-    this.correctValue = correctValue;
-  }
-
-  public String getParameter() {
-    return parameter;
-  }
-
-  public String getCorrectValue() {
-    return correctValue;
-  }
+// TODO: (xingtanzjr) This class should be substituted with the class defined in Consensus level
+public class DataRegionTimeSlice {
+  long startTimestamp;
 }

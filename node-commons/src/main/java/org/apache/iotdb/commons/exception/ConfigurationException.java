@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,14 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.iotdb.db.mpp.common;
 
-/**
- * This class is used to record the context of a query including QueryId, query statement, session
- * info and so on
- */
-public class QueryContext {
-  private String statement;
-  private QueryId queryId;
-  private QuerySession session;
+package org.apache.iotdb.commons.exception;
+
+import org.apache.iotdb.rpc.TSStatusCode;
+
+public class ConfigurationException extends IoTDBException {
+  final String parameter;
+  final String correctValue;
+
+  public ConfigurationException(String parameter, String badValue, String correctValue) {
+    super(
+        String.format(
+            "Parameter %s can not be %s, please set to: %s", parameter, badValue, correctValue),
+        TSStatusCode.CONFIG_ERROR.getStatusCode());
+    this.parameter = parameter;
+    this.correctValue = correctValue;
+  }
+
+  public String getParameter() {
+    return parameter;
+  }
+
+  public String getCorrectValue() {
+    return correctValue;
+  }
 }
