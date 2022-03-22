@@ -63,6 +63,7 @@ From this syntax definition, `selectExpr` can contain:
 
 ## Arithmetic Query
 
+
 > Please note that Aligned Timeseries has not been supported in Arithmetic Query yet. An error message is expected if you use Arithmetic Query with Aligned Timeseries selected.
 
 ### Operators
