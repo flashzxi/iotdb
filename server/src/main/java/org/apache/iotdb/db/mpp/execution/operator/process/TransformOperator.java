@@ -211,7 +211,7 @@ public class TransformOperator implements ProcessOperator {
 
       int rowCount = 0;
       while (!timeHeap.isEmpty()) {
-        final long currentTime = timeHeap.pollFirst();
+        final long currentTime = timeHeap.first();
 
         // time
         timeBuilder.writeLong(currentTime);
@@ -223,12 +223,13 @@ public class TransformOperator implements ProcessOperator {
             for (int j = 0; j <= i; ++j) {
               shouldIterateReadersToNextValid[j] = false;
             }
-            timeHeap.add(currentTime);
 
             tsBlockBuilder.declarePositions(rowCount);
             return tsBlockBuilder.build();
           }
         }
+
+        timeHeap.pollFirst();
 
         for (int i = 0; i < columnCount; ++i) {
           if (shouldIterateReadersToNextValid[i]) {
